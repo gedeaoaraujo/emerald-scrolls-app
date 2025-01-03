@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootApp() {
     val navController = rememberNavController()
+    val viewModel = MainViewModel()
     EmeraldScrollsTheme {
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
             CenterAlignedTopAppBar(
@@ -57,8 +58,12 @@ fun RootApp() {
             }
         }) { innerPadding ->
             NavHost(navController = navController, startDestination = "home") {
-                composable("home") { RootHome(innerPadding) }
-                composable("note") { RootNote(innerPadding) }
+                composable("home") {
+                    RootHome(innerPadding, viewModel.notes)
+                }
+                composable("note") {
+                    RootNote(navController, innerPadding, viewModel::onSaveNote)
+                }
             }
         }
     }
