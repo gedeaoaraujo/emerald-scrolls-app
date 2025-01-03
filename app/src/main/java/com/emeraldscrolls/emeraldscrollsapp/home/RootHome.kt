@@ -9,15 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
-private val notes = listOf(
-    "Title 1" to "lkajsdkljsaldjalsjdlçajsdlkjasldkj",
-    "Title 1" to "lkajsdkljsaldjalsjdlçajsdlkjasldkj",
-    "Title 1" to "lkajsdkljsaldjalsjdlçajsdlkjasldkj",
-)
+import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
 
 @Composable
-fun RootHome(innerPadding: PaddingValues) {
+fun RootHome(innerPadding: PaddingValues, notes: List<NoteModel>) {
     LazyColumn(Modifier.padding(innerPadding)) {
         items(notes){ item ->
             NoteItem(item)
@@ -26,9 +21,9 @@ fun RootHome(innerPadding: PaddingValues) {
 }
 
 @Composable
-fun NoteItem(item: Pair<String, String>) {
+fun NoteItem(item: NoteModel) {
     Column(Modifier.padding(8.dp)) {
-        Text(text = item.component1())
-        Text(text = item.component2())
+        Text(text = item.title)
+        Text(text = item.text)
     }
 }
