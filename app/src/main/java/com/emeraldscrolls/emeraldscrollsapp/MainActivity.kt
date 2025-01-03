@@ -5,15 +5,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.emeraldscrolls.emeraldscrollsapp.home.RootHome
+import com.emeraldscrolls.emeraldscrollsapp.note.RootNote
 import com.emeraldscrolls.emeraldscrollsapp.ui.theme.EmeraldScrollsTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootApp() {
+    val navController = rememberNavController()
     EmeraldScrollsTheme {
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
             CenterAlignedTopAppBar(
@@ -36,11 +45,21 @@ fun RootApp() {
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
+        }, floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate("note") },
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add new note"
+                )
+            }
         }) { innerPadding ->
-            Text(
-                text = "Hello Emerald Scrolls!",
-                modifier = Modifier.padding(innerPadding)
-            )
+            NavHost(navController = navController, startDestination = "home") {
+                composable("home") { RootHome(innerPadding) }
+                composable("note") { RootNote(innerPadding) }
+            }
         }
     }
 }
