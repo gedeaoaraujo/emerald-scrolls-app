@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.utils.dateTimeFmt
 
 @Composable
 fun RootNote(
@@ -29,7 +30,7 @@ fun RootNote(
     var text by remember { mutableStateOf("") }
 
     BackHandler {
-        onSaveNote(NoteModel(title, text))
+        onSaveNote(NoteModel(title, text, dateTimeFmt()))
         navController.popBackStack()
     }
 
