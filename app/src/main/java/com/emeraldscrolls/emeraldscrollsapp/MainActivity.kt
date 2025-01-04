@@ -16,6 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,6 +39,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootApp() {
+    var showAddButton by remember { mutableStateOf(true) }
     val navController = rememberNavController()
     val viewModel = MainViewModel()
     EmeraldScrollsTheme {
@@ -47,7 +52,7 @@ fun RootApp() {
                 )
             )
         }, floatingActionButton = {
-            FloatingActionButton(
+            if (showAddButton) FloatingActionButton(
                 onClick = { navController.navigate("note") },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
@@ -59,9 +64,11 @@ fun RootApp() {
         }) { innerPadding ->
             NavHost(navController = navController, startDestination = "home") {
                 composable("home") {
+                    showAddButton = true
                     RootHome(innerPadding, viewModel.notes)
                 }
                 composable("note") {
+                    showAddButton = false
                     RootNote(navController, innerPadding, viewModel::onSaveNote)
                 }
             }
