@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.utils.dateTimeFmt
 
 @Composable
 fun RootHome(innerPadding: PaddingValues, notes: List<NoteModel>) {
@@ -41,9 +42,9 @@ fun NoteItem(item: NoteModel) {
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = item.date,
             fontSize = 16.sp,
             color = Color.Gray,
+            text = item.date?.dateTimeFmt().orEmpty(),
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         Text(

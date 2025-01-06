@@ -93,7 +93,7 @@ fun RootApp() {
                 }
                 composable("note") {
                     viewModel.changeVisibility(showAddButton = false, showSaveButton = true)
-                    RootNote(innerPadding, state.newNote, viewModel::changeTitle, viewModel::changeText)
+                    RootNote(innerPadding, viewModel::onSaveNote)
                 }
             }
         }
