@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ScrollDao {
 
     @Upsert
-    fun upsert(scroll: ScrollEntity)
+    suspend fun upsert(scroll: ScrollEntity)
 
     @Query("SELECT * FROM scrolls")
     fun selectAll(): Flow<List<ScrollEntity>>
