@@ -6,8 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 data class NoteState(
-    val showAddButton: Boolean = true,
-    val showSaveButton: Boolean = false,
     val notes: List<NoteModel> = emptyList(),
     val newNote: NoteModel = NoteModel()
 )
@@ -15,13 +13,6 @@ data class NoteState(
 class MainViewModel: ViewModel() {
 
     val state = MutableStateFlow(NoteState())
-
-    fun changeVisibility(showAddButton: Boolean, showSaveButton: Boolean) {
-        state.update { it.copy(
-            showAddButton = showAddButton,
-            showSaveButton = showSaveButton
-        ) }
-    }
 
     fun saveNewNote() {
         val list = state.value.notes.toMutableList()
@@ -32,10 +23,6 @@ class MainViewModel: ViewModel() {
 
     fun onSaveNote(note: NoteModel){
         state.update { it.copy(newNote = note) }
-    }
-
-    fun setSaveButton(show: Boolean){
-        state.update { it.copy(showSaveButton = show) }
     }
 
 }

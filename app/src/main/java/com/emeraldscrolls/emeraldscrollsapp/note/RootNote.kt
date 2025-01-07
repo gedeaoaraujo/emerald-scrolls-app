@@ -49,7 +49,6 @@ import java.time.LocalDateTime
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootNote(
     onSaveNote: (NoteModel) -> Unit,
-    onTextChange: (Boolean) -> Unit,
     onCheckClick: () -> Unit
 ) {
     var title by remember { mutableStateOf("") }
@@ -59,10 +58,6 @@ fun RootNote(
 
     LaunchedEffect(Unit){
         date = LocalDateTime.now()
-    }
-
-    LaunchedEffect(title, text){
-        onTextChange(title.isNotBlank() && text.isNotBlank())
     }
 
     DisposableEffect(lifecycleOwner){

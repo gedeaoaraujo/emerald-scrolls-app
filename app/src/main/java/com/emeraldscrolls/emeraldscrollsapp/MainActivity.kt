@@ -33,10 +33,6 @@ fun RootApp() {
         viewModel.saveNewNote()
     }
 
-    fun onTextChange(show: Boolean = false) {
-        viewModel.setSaveButton(show)
-    }
-
     fun navigateTo(route: String){
         navController.navigate(route)
     }
@@ -44,12 +40,10 @@ fun RootApp() {
     EmeraldScrollsTheme {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
-                viewModel.changeVisibility(showAddButton = true, showSaveButton = false)
                 RootHome(state.notes, ::navigateTo)
             }
             composable("note") {
-                viewModel.changeVisibility(showAddButton = false, showSaveButton = false)
-                RootNote(viewModel::onSaveNote, ::onTextChange, ::onCheckClick)
+                RootNote(viewModel::onSaveNote, ::onCheckClick)
             }
         }
     }
