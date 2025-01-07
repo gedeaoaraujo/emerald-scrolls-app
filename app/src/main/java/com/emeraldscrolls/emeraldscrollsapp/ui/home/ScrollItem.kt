@@ -13,11 +13,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import com.emeraldscrolls.emeraldscrollsapp.utils.dateTimeFmt
 
 @Composable
-fun NoteItem(item: NoteModel, onSelectItem: () -> Unit) {
+fun ScrollItem(item: ScrollModel, onSelectItem: () -> Unit) {
     Column(Modifier.fillMaxWidth().padding(8.dp).clickable { onSelectItem() }) {
         Text(
             fontSize = 20.sp,

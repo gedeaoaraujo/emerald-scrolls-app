@@ -6,10 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import com.emeraldscrolls.emeraldscrollsapp.ui.Routes
 import com.emeraldscrolls.emeraldscrollsapp.ui.home.RootHome
-import com.emeraldscrolls.emeraldscrollsapp.ui.note.RootNote
+import com.emeraldscrolls.emeraldscrollsapp.ui.scroll.RootScroll
 import com.emeraldscrolls.emeraldscrollsapp.ui.preview.RootPreview
 import com.emeraldscrolls.emeraldscrollsapp.ui.theme.EmeraldScrollsTheme
 
@@ -21,14 +21,14 @@ fun RootApp() {
 
     fun onCheckClick() {
         navController.popBackStack()
-        viewModel.saveNewNote()
+        viewModel.saveNewScroll()
     }
 
     fun navigateTo(route: String){
         navController.navigate(route)
     }
 
-    fun onSelectItem(item: NoteModel){
+    fun onSelectItem(item: ScrollModel){
         viewModel.setSelectedItem(item)
         navController.navigate(Routes.PREVIEW)
     }
@@ -36,13 +36,13 @@ fun RootApp() {
     EmeraldScrollsTheme {
         NavHost(navController = navController, startDestination = Routes.HOME) {
             composable(Routes.HOME) {
-                RootHome(state.notes, ::navigateTo, ::onSelectItem)
+                RootHome(state.scrolls, ::navigateTo, ::onSelectItem)
             }
-            composable(Routes.NOTE) {
-                RootNote(viewModel::onSaveNote, ::onCheckClick)
+            composable(Routes.SCROLL) {
+                RootScroll(viewModel::onSaveScroll, ::onCheckClick)
             }
             composable(Routes.PREVIEW) {
-                RootPreview(state.selectedNote)
+                RootPreview(state.selectedScroll)
             }
         }
     }

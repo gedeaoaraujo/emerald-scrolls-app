@@ -2,6 +2,6 @@ package com.emeraldscrolls.emeraldscrollsapp.ui
 
 object Routes {
     const val HOME = "home"
-    const val NOTE = "note"
+    const val SCROLL = "scroll"
     const val PREVIEW = "preview"
 }

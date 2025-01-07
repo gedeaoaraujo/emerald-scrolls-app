@@ -22,20 +22,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import com.emeraldscrolls.emeraldscrollsapp.utils.dayAndMonth
 import com.emeraldscrolls.emeraldscrollsapp.utils.hourAndMinute
 import com.emeraldscrolls.emeraldscrollsapp.utils.yearAndWeekday
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun RootPreview(note: NoteModel?) {
+fun RootPreview(scroll: ScrollModel?) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Preview Note",
+                        text = "Preview Scroll",
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
@@ -56,21 +56,21 @@ fun RootPreview(note: NoteModel?) {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
-                        text = note?.date?.dayAndMonth().orEmpty(),
+                        text = scroll?.date?.dayAndMonth().orEmpty(),
                         modifier = Modifier.padding(start = 24.dp, top = 24.dp)
                     )
                     Text(
                         fontSize = 14.sp,
                         color = Color.LightGray,
                         fontWeight = FontWeight.Bold,
-                        text = note?.date?.yearAndWeekday().orEmpty(),
+                        text = scroll?.date?.yearAndWeekday().orEmpty(),
                         modifier = Modifier.padding(start = 24.dp, bottom = 8.dp)
                     )
                 }
                 Text(
                     fontSize = 20.sp,
                     textAlign = TextAlign.End,
-                    text = note?.date?.hourAndMinute().orEmpty(),
+                    text = scroll?.date?.hourAndMinute().orEmpty(),
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
@@ -87,7 +87,7 @@ fun RootPreview(note: NoteModel?) {
             )
             Text(
                 fontSize = 20.sp,
-                text = note?.title.orEmpty(),
+                text = scroll?.title.orEmpty(),
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth().padding(
@@ -97,7 +97,7 @@ fun RootPreview(note: NoteModel?) {
             )
             Text(
                 fontSize = 18.sp,
-                text = note?.text.orEmpty(),
+                text = scroll?.text.orEmpty(),
                 modifier = Modifier.fillMaxWidth().padding(
                     horizontal = 24.dp,
                     vertical = 16.dp

@@ -1,34 +1,33 @@
 package com.emeraldscrolls.emeraldscrollsapp
 
 import androidx.lifecycle.ViewModel
-import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import java.time.LocalDateTime
 
-data class NoteState(
-    val notes: List<NoteModel> = emptyList(),
-    val newNote: NoteModel = NoteModel(),
-    val selectedNote: NoteModel? = null
+data class ScrollState(
+    val scrolls: List<ScrollModel> = emptyList(),
+    val newScroll: ScrollModel = ScrollModel(),
+    val selectedScroll: ScrollModel? = null
 )
 
 class MainViewModel: ViewModel() {
 
-    val state = MutableStateFlow(NoteState())
+    val state = MutableStateFlow(ScrollState())
 
-    fun saveNewNote() {
-        val list = state.value.notes.toMutableList()
-        list.add(state.value.newNote)
-        state.update { it.copy(newNote = NoteModel()) }
-        state.update { it.copy(notes = list) }
+    fun saveNewScroll() {
+        val list = state.value.scrolls.toMutableList()
+        list.add(state.value.newScroll)
+        state.update { it.copy(newScroll = ScrollModel()) }
+        state.update { it.copy(scrolls = list) }
     }
 
-    fun onSaveNote(note: NoteModel){
-        state.update { it.copy(newNote = note) }
+    fun onSaveScroll(scroll: ScrollModel){
+        state.update { it.copy(newScroll = scroll) }
     }
 
-    fun setSelectedItem(item: NoteModel) {
-        state.update { it.copy(selectedNote = item) }
+    fun setSelectedItem(item: ScrollModel) {
+        state.update { it.copy(selectedScroll = item) }
     }
 
 }

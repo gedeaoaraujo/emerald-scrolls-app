@@ -26,15 +26,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import com.emeraldscrolls.emeraldscrollsapp.ui.Routes
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootHome(
-    notes: List<NoteModel>,
+    scrolls: List<ScrollModel>,
     navigateTo: (String) -> Unit,
-    onSelectItem: (NoteModel) -> Unit
+    onSelectItem: (ScrollModel) -> Unit
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(
@@ -56,22 +56,22 @@ fun RootHome(
         )
     }, floatingActionButton = {
         FloatingActionButton(
-            onClick = { navigateTo(Routes.NOTE) },
+            onClick = { navigateTo(Routes.SCROLL) },
             containerColor = MaterialTheme.colorScheme.primary
         ) {
             Icon(
                 imageVector = Icons.Filled.Create,
-                contentDescription = "Add new note"
+                contentDescription = "Add new scroll"
             )
         }
     }) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            if (notes.isEmpty()){
-                EmptyNoteList()
+            if (scrolls.isEmpty()){
+                EmptyScrollList()
             } else {
                 LazyColumn {
-                    items(notes){ item ->
-                        NoteItem(item) { onSelectItem(item) }
+                    items(scrolls){ item ->
+                        ScrollItem(item) { onSelectItem(item) }
                         Spacer(Modifier.fillMaxWidth()
                             .background(Color.LightGray).size(1.dp))
                     }

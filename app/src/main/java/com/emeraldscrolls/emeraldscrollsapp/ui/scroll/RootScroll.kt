@@ -1,4 +1,4 @@
-package com.emeraldscrolls.emeraldscrollsapp.ui.note
+package com.emeraldscrolls.emeraldscrollsapp.ui.scroll
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import com.emeraldscrolls.emeraldscrollsapp.utils.dayAndMonth
 import com.emeraldscrolls.emeraldscrollsapp.utils.hourAndMinute
 import com.emeraldscrolls.emeraldscrollsapp.utils.yearAndWeekday
@@ -47,8 +47,8 @@ import java.time.LocalDateTime
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun RootNote(
-    onSaveNote: (NoteModel) -> Unit,
+fun RootScroll(
+    onSaveScroll: (ScrollModel) -> Unit,
     onCheckClick: () -> Unit
 ) {
     var title by remember { mutableStateOf("") }
@@ -63,7 +63,7 @@ fun RootNote(
     DisposableEffect(lifecycleOwner){
         val observer = LifecycleEventObserver { _, event ->
             if (event != Lifecycle.Event.ON_STOP) return@LifecycleEventObserver
-            onSaveNote(NoteModel(title, text, date))
+            onSaveScroll(ScrollModel(title, text, date))
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
@@ -86,7 +86,7 @@ fun RootNote(
                         IconButton(onClick = { onCheckClick() }) {
                             Icon(
                                 imageVector = Icons.Default.Check,
-                                contentDescription = "Save Note"
+                                contentDescription = "Save Scroll"
                             )
                         }
                     }
