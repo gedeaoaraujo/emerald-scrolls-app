@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.ui.Routes
 import com.emeraldscrolls.emeraldscrollsapp.ui.home.RootHome
 import com.emeraldscrolls.emeraldscrollsapp.ui.note.RootNote
 import com.emeraldscrolls.emeraldscrollsapp.ui.preview.RootPreview
@@ -29,18 +30,18 @@ fun RootApp() {
 
     fun onSelectItem(item: NoteModel){
         viewModel.setSelectedItem(item)
-        navController.navigate("preview")
+        navController.navigate(Routes.PREVIEW)
     }
 
     EmeraldScrollsTheme {
-        NavHost(navController = navController, startDestination = "home") {
-            composable("home") {
+        NavHost(navController = navController, startDestination = Routes.HOME) {
+            composable(Routes.HOME) {
                 RootHome(state.notes, ::navigateTo, ::onSelectItem)
             }
-            composable("note") {
+            composable(Routes.NOTE) {
                 RootNote(viewModel::onSaveNote, ::onCheckClick)
             }
-            composable("preview") {
+            composable(Routes.PREVIEW) {
                 RootPreview(state.selectedNote)
             }
         }

@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
+import com.emeraldscrolls.emeraldscrollsapp.ui.Routes
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +56,7 @@ fun RootHome(
         )
     }, floatingActionButton = {
         FloatingActionButton(
-            onClick = { navigateTo("note") },
+            onClick = { navigateTo(Routes.NOTE) },
             containerColor = MaterialTheme.colorScheme.primary
         ) {
             Icon(
