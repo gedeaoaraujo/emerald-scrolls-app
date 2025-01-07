@@ -81,7 +81,7 @@ fun RootScroll(
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                 ) {
-                    Text(text = "Emerald Scrolls")
+                    Text(text = "Create Scroll")
                     if (title.isNotBlank() && text.isNotBlank()) {
                         IconButton(onClick = { onCheckClick() }) {
                             Icon(
