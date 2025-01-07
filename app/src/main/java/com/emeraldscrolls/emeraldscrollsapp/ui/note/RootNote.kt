@@ -1,4 +1,4 @@
-package com.emeraldscrolls.emeraldscrollsapp.note
+package com.emeraldscrolls.emeraldscrollsapp.ui.note
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

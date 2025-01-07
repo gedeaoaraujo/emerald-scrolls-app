@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.emeraldscrolls.emeraldscrollsapp.home.RootHome
-import com.emeraldscrolls.emeraldscrollsapp.note.RootNote
+import com.emeraldscrolls.emeraldscrollsapp.ui.home.RootHome
+import com.emeraldscrolls.emeraldscrollsapp.ui.note.RootNote
 import com.emeraldscrolls.emeraldscrollsapp.ui.theme.EmeraldScrollsTheme
 
 @Composable

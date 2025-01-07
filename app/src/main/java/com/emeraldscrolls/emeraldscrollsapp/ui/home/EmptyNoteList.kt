@@ -1,4 +1,4 @@
-package com.emeraldscrolls.emeraldscrollsapp.home
+package com.emeraldscrolls.emeraldscrollsapp.ui.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
