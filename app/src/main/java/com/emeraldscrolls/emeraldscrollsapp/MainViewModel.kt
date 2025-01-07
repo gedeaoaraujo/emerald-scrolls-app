@@ -2,6 +2,7 @@ package com.emeraldscrolls.emeraldscrollsapp
 
 import androidx.lifecycle.ViewModel
 import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
+import com.emeraldscrolls.emeraldscrollsapp.repository.ScrollRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -11,7 +12,9 @@ data class ScrollState(
     val selectedScroll: ScrollModel? = null
 )
 
-class MainViewModel: ViewModel() {
+class MainViewModel(
+    private val scrollRepository: ScrollRepository
+): ViewModel() {
 
     val state = MutableStateFlow(ScrollState())
 

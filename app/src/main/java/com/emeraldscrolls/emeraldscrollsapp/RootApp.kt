@@ -12,11 +12,12 @@ import com.emeraldscrolls.emeraldscrollsapp.ui.home.RootHome
 import com.emeraldscrolls.emeraldscrollsapp.ui.scroll.RootScroll
 import com.emeraldscrolls.emeraldscrollsapp.ui.preview.RootPreview
 import com.emeraldscrolls.emeraldscrollsapp.ui.theme.EmeraldScrollsTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RootApp() {
     val navController = rememberNavController()
-    val viewModel = MainViewModel()
+    val viewModel = koinViewModel<MainViewModel>()
     val state by viewModel.state.collectAsState()
 
     fun onCheckClick() {
