@@ -32,7 +32,8 @@ import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootHome(
     notes: List<NoteModel>,
-    navigateTo: (String) -> Unit
+    navigateTo: (String) -> Unit,
+    onSelectItem: (NoteModel) -> Unit
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(
@@ -69,7 +70,7 @@ fun RootHome(
             } else {
                 LazyColumn {
                     items(notes){ item ->
-                        NoteItem(item)
+                        NoteItem(item) { onSelectItem(item) }
                         Spacer(Modifier.fillMaxWidth()
                             .background(Color.LightGray).size(1.dp))
                     }

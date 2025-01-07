@@ -1,5 +1,6 @@
 package com.emeraldscrolls.emeraldscrollsapp.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,8 +17,8 @@ import com.emeraldscrolls.emeraldscrollsapp.model.NoteModel
 import com.emeraldscrolls.emeraldscrollsapp.utils.dateTimeFmt
 
 @Composable
-fun NoteItem(item: NoteModel) {
-    Column(Modifier.fillMaxWidth().padding(8.dp)) {
+fun NoteItem(item: NoteModel, onSelectItem: () -> Unit) {
+    Column(Modifier.fillMaxWidth().padding(8.dp).clickable { onSelectItem() }) {
         Text(
             fontSize = 20.sp,
             text = item.title,
