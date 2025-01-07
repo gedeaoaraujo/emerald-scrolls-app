@@ -34,4 +34,8 @@ class MainViewModel: ViewModel() {
         state.update { it.copy(newNote = note) }
     }
 
+    fun setSaveButton(show: Boolean){
+        state.update { it.copy(showSaveButton = show) }
+    }
+
 }

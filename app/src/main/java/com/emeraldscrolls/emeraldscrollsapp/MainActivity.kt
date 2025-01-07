@@ -54,6 +54,10 @@ fun RootApp() {
         viewModel.saveNewNote()
     }
 
+    fun onTextChange(show: Boolean = false) {
+        viewModel.setSaveButton(show)
+    }
+
     EmeraldScrollsTheme {
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
             CenterAlignedTopAppBar(
@@ -92,9 +96,8 @@ fun RootApp() {
                     RootHome(innerPadding, state.notes)
                 }
                 composable("note") {
-                    viewModel.changeVisibility(showAddButton = false, showSaveButton = true)
-                    RootNote(innerPadding, viewModel::onSaveNote)
                     viewModel.changeVisibility(showAddButton = false, showSaveButton = false)
+                    RootNote(innerPadding, viewModel::onSaveNote, ::onTextChange)
                 }
             }
         }

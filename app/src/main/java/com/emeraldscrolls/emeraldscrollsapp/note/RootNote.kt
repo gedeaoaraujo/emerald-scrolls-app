@@ -40,7 +40,8 @@ import java.time.LocalDateTime
 @Composable
 fun RootNote(
     innerPadding: PaddingValues,
-    onSaveNote: (NoteModel) -> Unit
+    onSaveNote: (NoteModel) -> Unit,
+    onTextChange: (Boolean) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var text by remember { mutableStateOf("") }
@@ -49,6 +50,10 @@ fun RootNote(
 
     LaunchedEffect(Unit){
         date = LocalDateTime.now()
+    }
+
+    LaunchedEffect(title, text){
+        onTextChange(title.isNotBlank() && text.isNotBlank())
     }
 
     DisposableEffect(lifecycleOwner){
