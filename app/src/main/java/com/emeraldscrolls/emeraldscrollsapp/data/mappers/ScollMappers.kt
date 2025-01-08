@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 
 fun ScrollEntity.toModel(): ScrollModel {
     return ScrollModel(
+        id = id,
         title = title,
         text = text,
         date = LocalDateTime.parse(date)
