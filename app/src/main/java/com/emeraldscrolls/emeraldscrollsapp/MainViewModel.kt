@@ -51,4 +51,8 @@ class MainViewModel(
         _state.update { it.copy(selectedScroll = item) }
     }
 
+    fun deleteScroll(itemId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        scrollRepository.deleteById(itemId)
+    }
+
 }

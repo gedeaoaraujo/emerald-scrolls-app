@@ -34,6 +34,11 @@ fun RootApp() {
         navController.navigate(Routes.PREVIEW)
     }
 
+    fun onDeleteScroll(itemId: Int){
+        viewModel.deleteScroll(itemId)
+        navController.popBackStack()
+    }
+
     EmeraldScrollsTheme {
         NavHost(navController = navController, startDestination = Routes.HOME) {
             composable(Routes.HOME) {
@@ -43,7 +48,7 @@ fun RootApp() {
                 RootScroll(viewModel::onSaveScroll, ::onCheckClick)
             }
             composable(Routes.PREVIEW) {
-                RootPreview(state.selectedScroll)
+                RootPreview(state.selectedScroll, ::onDeleteScroll)
             }
         }
     }

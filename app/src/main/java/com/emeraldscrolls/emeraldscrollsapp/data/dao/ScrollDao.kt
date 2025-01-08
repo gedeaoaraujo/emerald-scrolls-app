@@ -1,6 +1,7 @@
 package com.emeraldscrolls.emeraldscrollsapp.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.emeraldscrolls.emeraldscrollsapp.data.entities.ScrollEntity
@@ -14,5 +15,8 @@ interface ScrollDao {
 
     @Query("SELECT * FROM scrolls")
     fun selectAll(): Flow<List<ScrollEntity>>
+
+    @Query("DELETE FROM scrolls WHERE id = :itemId")
+    suspend fun deleteById(itemId: Int)
 
 }

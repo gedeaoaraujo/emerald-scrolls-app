@@ -25,4 +25,8 @@ class ScrollRepository(
         ))
     }
 
+    suspend fun deleteById(itemId: Int) {
+        scrollDao.deleteById(itemId)
+    }
+
 }
