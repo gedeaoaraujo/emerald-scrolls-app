@@ -21,11 +21,14 @@ fun RootApp() {
     val state by viewModel.state.collectAsState()
 
     fun onCheckClick() {
-        navController.popBackStack()
+        navController.popBackStack(
+            Routes.HOME, inclusive = false
+        )
         viewModel.saveNewScroll()
     }
 
     fun navigateTo(route: String){
+        viewModel.setSelectedItem(ScrollModel())
         navController.navigate(route)
     }
 
@@ -39,16 +42,21 @@ fun RootApp() {
         navController.popBackStack()
     }
 
+    fun onEditScroll(item: ScrollModel){
+        viewModel.setSelectedItem(item)
+        navController.navigate(Routes.SCROLL)
+    }
+
     EmeraldScrollsTheme {
         NavHost(navController = navController, startDestination = Routes.HOME) {
             composable(Routes.HOME) {
                 RootHome(state.scrolls, ::navigateTo, ::onSelectItem)
             }
             composable(Routes.SCROLL) {
-                RootScroll(viewModel::onSaveScroll, ::onCheckClick)
+                RootScroll(state.selectedScroll, viewModel::onSaveScroll, ::onCheckClick)
             }
             composable(Routes.PREVIEW) {
-                RootPreview(state.selectedScroll, ::onDeleteScroll)
+                RootPreview(state.selectedScroll, ::onDeleteScroll, ::onEditScroll)
             }
         }
     }

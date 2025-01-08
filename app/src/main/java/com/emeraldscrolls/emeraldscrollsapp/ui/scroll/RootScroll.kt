@@ -48,13 +48,14 @@ import java.time.LocalDateTime
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun RootScroll(
+    selected: ScrollModel?,
     onSaveScroll: (ScrollModel) -> Unit,
     onCheckClick: () -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var text by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf(selected?.title.orEmpty()) }
+    var text by remember { mutableStateOf(selected?.text.orEmpty()) }
+    var date by remember { mutableStateOf(selected?.date) }
     val lifecycleOwner = LocalLifecycleOwner.current
-    var date by remember { mutableStateOf<LocalDateTime?>(null) }
 
     LaunchedEffect(Unit){
         date = LocalDateTime.now()
@@ -63,7 +64,12 @@ fun RootScroll(
     DisposableEffect(lifecycleOwner){
         val observer = LifecycleEventObserver { _, event ->
             if (event != Lifecycle.Event.ON_STOP) return@LifecycleEventObserver
-            onSaveScroll(ScrollModel(title = title, text = text, date = date))
+            onSaveScroll(ScrollModel(
+                id = selected?.id?:0,
+                title = title,
+                text = text,
+                date = date
+            ))
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {

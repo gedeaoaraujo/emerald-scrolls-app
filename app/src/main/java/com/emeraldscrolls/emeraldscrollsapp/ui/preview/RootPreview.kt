@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,7 +34,11 @@ import com.emeraldscrolls.emeraldscrollsapp.utils.yearAndWeekday
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun RootPreview(scroll: ScrollModel?, onDeleteScroll: (Int) -> Unit) {
+fun RootPreview(
+    scroll: ScrollModel?,
+    onDeleteScroll: (Int) -> Unit,
+    onEditScroll: (ScrollModel) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -47,13 +52,23 @@ fun RootPreview(scroll: ScrollModel?, onDeleteScroll: (Int) -> Unit) {
                             text = "Preview Scroll",
                             color = MaterialTheme.colorScheme.onPrimary
                         )
-                        IconButton(onClick = {
-                            scroll?.id?.let { onDeleteScroll(it) }
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete Scroll"
-                            )
+                        Row {
+                            IconButton(onClick = {
+                                scroll?.let { onEditScroll(it) }
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Edit,
+                                    contentDescription = "Edit Scroll"
+                                )
+                            }
+                            IconButton(onClick = {
+                                scroll?.id?.let { onDeleteScroll(it) }
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete Scroll"
+                                )
+                            }
                         }
                     }
                 },
