@@ -64,12 +64,7 @@ fun RootScroll(
     DisposableEffect(lifecycleOwner){
         val observer = LifecycleEventObserver { _, event ->
             if (event != Lifecycle.Event.ON_STOP) return@LifecycleEventObserver
-            onSaveScroll(ScrollModel(
-                id = selected?.id?:0,
-                title = title,
-                text = text,
-                date = date
-            ))
+            onSaveScroll(ScrollModel(selected?.id?:0, title, text, date))
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
@@ -83,9 +78,7 @@ fun RootScroll(
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 ) {
                     Text(text = "Create Scroll")
                     if (title.isNotBlank() && text.isNotBlank()) {
