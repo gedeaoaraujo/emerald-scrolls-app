@@ -8,12 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,36 +37,7 @@ fun RootPreview(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
-                    ) {
-                        Text(
-                            text = "Preview Scroll",
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                        Row {
-                            IconButton(onClick = {
-                                scroll?.let { onEditScroll(it) }
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "Edit Scroll"
-                                )
-                            }
-                            IconButton(onClick = {
-                                scroll?.id?.let { onDeleteScroll(it) }
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete Scroll"
-                                )
-                            }
-                        }
-                    }
-                },
+                title = { TitlePreview(scroll, onDeleteScroll, onEditScroll) },
                 colors = TopAppBarDefaults.topAppBarColors().copy(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
