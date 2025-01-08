@@ -19,6 +19,7 @@ class ScrollRepository(
 
     suspend fun insert(scroll: ScrollModel){
         scrollDao.upsert(ScrollEntity(
+            id = scroll.id,
             title = scroll.title,
             text = scroll.text,
             date = scroll.date.toString()
