@@ -58,7 +58,7 @@ fun RootScroll(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit){
-        date = LocalDateTime.now()
+        date = if (date != null) date else LocalDateTime.now()
     }
 
     DisposableEffect(lifecycleOwner){
