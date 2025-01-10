@@ -1,5 +1,6 @@
 package com.emeraldscrolls.emeraldscrollsapp.ui.preview
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -14,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
+import com.emeraldscrolls.emeraldscrollsapp.utils.dateTimeFmt
 
 @Composable
 fun TitlePreview(
@@ -23,6 +27,24 @@ fun TitlePreview(
     onDeleteScroll: (Int) -> Unit,
     onEditScroll: (ScrollModel) -> Unit
 ) {
+    val context = LocalContext.current
+    fun onShareScroll(item: ScrollModel){
+        val date = item.date
+            ?.dateTimeFmt().orEmpty()
+        val str = buildString {
+            appendLine(item.title)
+            appendLine(date)
+            appendLine(item.text)
+        }
+        val content = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, str)
+            type = "text/plain"
+        }
+        val startIntent = Intent.createChooser(content, null)
+        context.startActivity(startIntent)
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -34,6 +56,14 @@ fun TitlePreview(
             style = MaterialTheme.typography.titleMedium
         )
         Row {
+            IconButton(onClick = {
+                scroll?.let { onShareScroll(it) }
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share Scroll"
+                )
+            }
             IconButton(onClick = {
                 scroll?.let { onEditScroll(it) }
             }) {
