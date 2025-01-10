@@ -30,7 +30,8 @@ fun TitlePreview(
     ) {
         Text(
             text = "Preview Scroll",
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = MaterialTheme.typography.titleMedium
         )
         Row {
             IconButton(onClick = {

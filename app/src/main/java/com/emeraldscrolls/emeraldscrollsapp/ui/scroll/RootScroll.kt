@@ -80,7 +80,7 @@ fun RootScroll(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
                 ) {
-                    Text(text = "Create Scroll")
+                    Text(text = "Create Scroll", style = MaterialTheme.typography.titleMedium)
                     if (title.isNotBlank() && text.isNotBlank()) {
                         IconButton(onClick = { onCheckClick() }) {
                             Icon(
@@ -106,24 +106,25 @@ fun RootScroll(
                     Text(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
                         text = date?.dayAndMonth().orEmpty(),
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(start = 24.dp, top = 24.dp)
                     )
                     Text(
-                        fontSize = 14.sp,
                         color = Color.LightGray,
                         fontWeight = FontWeight.Bold,
                         text = date?.yearAndWeekday().orEmpty(),
+                        style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier.padding(start = 24.dp, bottom = 8.dp)
                     )
                 }
                 Text(
-                    fontSize = 20.sp,
                     textAlign = TextAlign.End,
-                    text = date?.hourAndMinute().orEmpty(),
                     fontWeight = FontWeight.Bold,
+                    text = date?.hourAndMinute().orEmpty(),
                     color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(end = 24.dp).fillMaxWidth()
                 )
             }
@@ -137,15 +138,15 @@ fun RootScroll(
             TextField(
                 value = title,
                 textStyle = TextStyle.Default.copy(
-                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    color = MaterialTheme.colorScheme.primary,
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize
                 ),
                 placeholder = { Text(
                     text = "Title",
-                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.titleMedium
                 ) },
                 onValueChange = { title = it },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
@@ -159,7 +160,7 @@ fun RootScroll(
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                textStyle = TextStyle.Default.copy(fontSize = 18.sp),
+                textStyle = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 placeholder = { Text(text = "Write your note here") },
                 colors = TextFieldDefaults.colors().copy(

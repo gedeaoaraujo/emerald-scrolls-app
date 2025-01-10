@@ -46,7 +46,10 @@ fun RootHome(
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                 ) {
-                    Text(text = "Emerald Scrolls")
+                    Text(
+                        text = "Emerald Scrolls",
+                        style = MaterialTheme.typography.titleLarge
+                    )
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors().copy(

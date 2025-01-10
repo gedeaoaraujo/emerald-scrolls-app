@@ -18,10 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
 import com.emeraldscrolls.emeraldscrollsapp.utils.dayAndMonth
 import com.emeraldscrolls.emeraldscrollsapp.utils.hourAndMinute
@@ -52,29 +50,24 @@ fun RootPreview(
             ) {
                 Column(modifier = Modifier.fillMaxWidth(0.5f)) {
                     Text(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium,
                         text = scroll?.date?.dayAndMonth().orEmpty(),
                         modifier = Modifier.padding(start = 24.dp, top = 24.dp)
                     )
                     Text(
-                        fontSize = 14.sp,
                         color = Color.LightGray,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleSmall,
                         text = scroll?.date?.yearAndWeekday().orEmpty(),
                         modifier = Modifier.padding(start = 24.dp, bottom = 8.dp)
                     )
                 }
                 Text(
-                    fontSize = 20.sp,
                     textAlign = TextAlign.End,
-                    text = scroll?.date?.hourAndMinute().orEmpty(),
-                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .padding(end = 24.dp)
-                        .fillMaxWidth()
+                    style = MaterialTheme.typography.titleMedium,
+                    text = scroll?.date?.hourAndMinute().orEmpty(),
+                    modifier = Modifier.padding(end = 24.dp).fillMaxWidth()
                 )
             }
             Spacer(
@@ -85,18 +78,14 @@ fun RootPreview(
                     .align(Alignment.CenterHorizontally)
             )
             Text(
-                fontSize = 20.sp,
                 text = scroll?.title.orEmpty(),
-                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth().padding(
-                    horizontal = 24.dp,
-                    vertical = 16.dp
-                )
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.fillMaxWidth().padding(24.dp, 16.dp)
             )
             Text(
-                fontSize = 18.sp,
                 text = scroll?.text.orEmpty(),
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.fillMaxWidth().padding(
                     horizontal = 24.dp,
                     vertical = 16.dp
