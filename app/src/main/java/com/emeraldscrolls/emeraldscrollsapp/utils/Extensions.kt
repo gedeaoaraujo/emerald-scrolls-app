@@ -26,3 +26,9 @@ fun LocalDateTime.dateTimeFmt(): String {
         .ofPattern("dd/MM/yy HH:mm")
     return this.format(formatter)
 }
+
+fun LocalDateTime.dateTimeFile(): String {
+    val formatter = DateTimeFormatter
+        .ofPattern("ddMMyyyy-HHmmss")
+    return this.format(formatter)
+}
