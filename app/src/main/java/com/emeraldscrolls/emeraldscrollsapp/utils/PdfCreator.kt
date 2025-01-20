@@ -4,10 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
+import android.graphics.pdf.PdfDocument.PageInfo
 import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,30 +31,7 @@ object PdfCreator {
         val dateTimeFile = LocalDateTime.now().dateTimeFile()
         val fileName = "Scroll-$dateTimeFile.pdf"
 
-        val pageInfo = PdfDocument.PageInfo
-            .Builder(PAGE_WIDTH, PAGE_HEIGHT, 1)
-            .create()
-        val page = pdfDocument.startPage(pageInfo)
-
-        val paint = Paint().also {
-            it.textSize = 20f
-            it.typeface = Typeface.DEFAULT_BOLD
-        }
-
-        var rowCounter = 1
-        val rowPosition = PADDING
-        val canvas: Canvas = page.canvas
-
-        scroll?.run {
-            val date = date?.dateTimeFmt().orEmpty()
-            canvas.drawText(title, PADDING, rowPosition.plus(rowCounter * PADDING), paint)
-
-            paint.typeface = Typeface.DEFAULT
-            canvas.drawText(date, PADDING, rowPosition.plus(++rowCounter * PADDING), paint)
-            drawText(text, canvas, paint, rowPosition.plus(++rowCounter * PADDING))
-        }
-
-        pdfDocument.finishPage(page)
+        scroll?.run { drawPage(date, title, text, pdfDocument) }
         val file = File(Environment.getExternalStorageDirectory(), fileName)
 
         val isCreated = try {
@@ -69,28 +46,66 @@ object PdfCreator {
         return isCreated
     }
 
-    private fun drawText(text: String, canvas: Canvas, paint: Paint, col: Float) {
-        var colSize = col
-        val rowSize = PADDING
+    private fun drawPage(
+        date: LocalDateTime?,
+        title: String,
+        text: String,
+        pdfDocument: PdfDocument
+    ) {
+        val lastPaint = Paint().also {
+            it.textSize = 20f
+            it.typeface = Typeface.DEFAULT_BOLD
+        }
+
+        var pageNumber = 1
         var line = StringBuilder()
-        val width = canvas.width - 100f
         val words = text.split(" ")
 
-        words.forEach { word ->
-            val testLine = "$line$word "
-            val lineWidth = paint.measureText(testLine)
+        var info = PageInfo
+            .Builder(PAGE_WIDTH, PAGE_HEIGHT, pageNumber)
+            .create()
+        var page = pdfDocument.startPage(info)
 
-            if (lineWidth > width) {
-                canvas.drawText("$line", rowSize, colSize, paint)
+        var canvas = page.canvas
+        var rowPosition = PADDING
+        val width = canvas.width - 80f
+        canvas.drawText(title, PADDING, rowPosition, lastPaint)
+
+        lastPaint.typeface = Typeface.DEFAULT
+        rowPosition += lastPaint.textSize * 1.5f
+        val dateTime = date?.dateTimeFmt().orEmpty()
+        canvas.drawText(dateTime, PADDING, rowPosition, lastPaint)
+
+        rowPosition += lastPaint.textSize / 2
+        words.forEach { word ->
+            val newLine = "$line$word "
+            val lineWidth = lastPaint.measureText(newLine)
+
+            if (lineWidth <= width) {
+                line = StringBuilder(newLine)
+                return@forEach
+            }
+
+            if (rowPosition <= (PAGE_HEIGHT - (1.5 * PADDING))){
+                rowPosition += lastPaint.textSize
+                canvas.drawText("$line", PADDING, rowPosition, lastPaint)
                 line = StringBuilder("$word ")
-                colSize += paint.textSize
             } else {
-                line = StringBuilder(testLine)
+                pdfDocument.finishPage(page)
+                info = PageInfo
+                    .Builder(PAGE_WIDTH, PAGE_HEIGHT, ++pageNumber)
+                    .create()
+
+                page = pdfDocument.startPage(info)
+                canvas = page.canvas
+                rowPosition = PADDING
             }
         }
 
         if (line.isNotEmpty()) {
-            canvas.drawText("$line", rowSize, colSize, paint)
+            rowPosition += lastPaint.textSize
+            canvas.drawText("$line", PADDING, rowPosition, lastPaint)
+            pdfDocument.finishPage(page)
         }
     }
 
