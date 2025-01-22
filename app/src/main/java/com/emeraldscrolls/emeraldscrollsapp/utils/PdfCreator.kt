@@ -76,19 +76,31 @@ object PdfCreator {
         val dateTime = date?.dateTimeFmt().orEmpty()
         canvas.drawText(dateTime, PADDING, rowPosition, lastPaint)
 
+        var colPosition = PADDING
         rowPosition += lastPaint.textSize / 2
         words.forEach { word ->
             val newLine = "$line$word "
             val lineWidth = lastPaint.measureText(newLine)
 
-            if (lineWidth <= width) {
+            if (lineWidth <= (width - (colPosition - PADDING))) {
                 line = StringBuilder(newLine)
                 return@forEach
             }
 
             if (rowPosition <= (PAGE_HEIGHT - (1.5 * PADDING))){
-                rowPosition += lastPaint.textSize
-                canvas.drawText("$line", PADDING, rowPosition, lastPaint)
+                if (line.contains("\n\n")){
+                    rowPosition += lastPaint.textSize
+                    val list = line.split("\n\n")
+                    canvas.drawText(list[0], PADDING, rowPosition, lastPaint)
+                    rowPosition += lastPaint.textSize * 2
+                    canvas.drawText(list[1], PADDING, rowPosition, lastPaint)
+                    rowPosition -= lastPaint.textSize
+                    colPosition = lastPaint.measureText(list[1]) + PADDING
+                } else {
+                    rowPosition += lastPaint.textSize
+                    canvas.drawText("$line", colPosition, rowPosition, lastPaint)
+                    colPosition = PADDING
+                }
                 line = StringBuilder("$word ")
             } else {
                 pdfDocument.finishPage(page)
