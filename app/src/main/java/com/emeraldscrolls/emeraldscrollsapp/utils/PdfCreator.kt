@@ -4,11 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfDocument.PageInfo
 import android.os.Environment
+import android.text.TextPaint
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.emeraldscrolls.emeraldscrollsapp.model.ScrollModel
@@ -52,7 +52,7 @@ object PdfCreator {
         text: String,
         pdfDocument: PdfDocument
     ) {
-        val lastPaint = Paint().also {
+        val lastPaint = TextPaint().also {
             it.textSize = 20f
             it.typeface = Typeface.DEFAULT_BOLD
         }
