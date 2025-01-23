@@ -75,36 +75,25 @@ object PdfCreator {
         val dateTime = date?.dateTimeFmt().orEmpty()
         canvas.drawText(dateTime, PADDING, rowPosition, lastPaint)
 
-        var isLastSplitted = false
-        var tempLine = StringBuilder()
-        val lines = mutableListOf<StringBuilder>()
+        var tempLine = String()
+        val lines = mutableListOf<String>()
         words.forEach { word ->
-            val newLine = "$tempLine$word "
+            var newLine = "$tempLine$word "
+
+            if (newLine.contains("\n\n")){
+                val split = newLine.split("\n\n")
+                newLine = "${split[0]}\n "
+                lines.add(newLine)
+                newLine = "${split[1]} "
+            }
+
             val lineWidth = lastPaint.measureText(newLine)
-
-            if (lineWidth <= (width - PADDING * 1.5f)) {
-                tempLine = StringBuilder(newLine)
-                return@forEach
-            }
-
-            tempLine = StringBuilder(newLine)
-            if (tempLine.contains("\n\n")){
-                val split = tempLine.split("\n\n")
-                lines.add(StringBuilder("${split[0]}\n"))
-                lines.add(StringBuilder(split[1]))
-                isLastSplitted = true
+            if (lineWidth <= width) {
+                tempLine = newLine
             } else {
-                val value = if (isLastSplitted) {
-                    val last = lines.last()
-                    lines.removeAt(lines.lastIndex)
-                    isLastSplitted = false
-                    StringBuilder("$last $tempLine")
-                } else {
-                    StringBuilder(tempLine)
-                }
-                lines.add(value)
+                lines.add(newLine)
+                tempLine = ""
             }
-            tempLine = StringBuilder()
         }
 
         rowPosition += lastPaint.textSize / 2
@@ -123,11 +112,11 @@ object PdfCreator {
 
             if (line.contains("\n")){
                 rowPosition += lastPaint.textSize
-                canvas.drawText("$line", PADDING, rowPosition, lastPaint)
+                canvas.drawText(line, PADDING, rowPosition, lastPaint)
                 rowPosition += lastPaint.textSize
             } else {
                 rowPosition += lastPaint.textSize
-                canvas.drawText("$line", PADDING, rowPosition, lastPaint)
+                canvas.drawText(line, PADDING, rowPosition, lastPaint)
             }
 
             if (index == lines.lastIndex) {
