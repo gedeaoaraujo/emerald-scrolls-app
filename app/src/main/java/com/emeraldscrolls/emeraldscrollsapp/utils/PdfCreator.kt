@@ -58,7 +58,6 @@ object PdfCreator {
         }
 
         var pageNumber = 1
-        var line = StringBuilder()
         val words = text.split(" ")
 
         var info = PageInfo
@@ -76,48 +75,64 @@ object PdfCreator {
         val dateTime = date?.dateTimeFmt().orEmpty()
         canvas.drawText(dateTime, PADDING, rowPosition, lastPaint)
 
-        var colPosition = PADDING
-        rowPosition += lastPaint.textSize / 2
+        var isLastSplitted = false
+        var tempLine = StringBuilder()
+        val lines = mutableListOf<StringBuilder>()
         words.forEach { word ->
-            val newLine = "$line$word "
+            val newLine = "$tempLine$word "
             val lineWidth = lastPaint.measureText(newLine)
 
-            if (lineWidth <= (width - (colPosition - PADDING))) {
-                line = StringBuilder(newLine)
+            if (lineWidth <= (width - PADDING * 1.5f)) {
+                tempLine = StringBuilder(newLine)
                 return@forEach
             }
 
-            if (rowPosition <= (PAGE_HEIGHT - (1.5 * PADDING))){
-                if (line.contains("\n\n")){
-                    rowPosition += lastPaint.textSize
-                    val list = line.split("\n\n")
-                    canvas.drawText(list[0], PADDING, rowPosition, lastPaint)
-                    rowPosition += lastPaint.textSize * 2
-                    canvas.drawText(list[1], PADDING, rowPosition, lastPaint)
-                    rowPosition -= lastPaint.textSize
-                    colPosition = lastPaint.measureText(list[1]) + PADDING
-                } else {
-                    rowPosition += lastPaint.textSize
-                    canvas.drawText("$line", colPosition, rowPosition, lastPaint)
-                    colPosition = PADDING
-                }
-                line = StringBuilder("$word ")
+            tempLine = StringBuilder(newLine)
+            if (tempLine.contains("\n\n")){
+                val split = tempLine.split("\n\n")
+                lines.add(StringBuilder("${split[0]}\n"))
+                lines.add(StringBuilder(split[1]))
+                isLastSplitted = true
             } else {
-                pdfDocument.finishPage(page)
-                info = PageInfo
-                    .Builder(PAGE_WIDTH, PAGE_HEIGHT, ++pageNumber)
-                    .create()
+                val value = if (isLastSplitted) {
+                    val last = lines.last()
+                    lines.removeAt(lines.lastIndex)
+                    isLastSplitted = false
+                    StringBuilder("$last $tempLine")
+                } else {
+                    StringBuilder(tempLine)
+                }
+                lines.add(value)
+            }
+            tempLine = StringBuilder()
+        }
 
+        rowPosition += lastPaint.textSize / 2
+        lines.forEachIndexed { index, line ->
+            val heightTest = PAGE_HEIGHT - PADDING - rowPosition
+
+            if (index != 0 && heightTest <= 0){
+                pdfDocument.finishPage(page)
+                info = PageInfo.Builder(
+                    PAGE_WIDTH, PAGE_HEIGHT, ++pageNumber
+                ).create()
                 page = pdfDocument.startPage(info)
                 canvas = page.canvas
                 rowPosition = PADDING
             }
-        }
 
-        if (line.isNotEmpty()) {
-            rowPosition += lastPaint.textSize
-            canvas.drawText("$line", PADDING, rowPosition, lastPaint)
-            pdfDocument.finishPage(page)
+            if (line.contains("\n")){
+                rowPosition += lastPaint.textSize
+                canvas.drawText("$line", PADDING, rowPosition, lastPaint)
+                rowPosition += lastPaint.textSize
+            } else {
+                rowPosition += lastPaint.textSize
+                canvas.drawText("$line", PADDING, rowPosition, lastPaint)
+            }
+
+            if (index == lines.lastIndex) {
+                pdfDocument.finishPage(page)
+            }
         }
     }
 
