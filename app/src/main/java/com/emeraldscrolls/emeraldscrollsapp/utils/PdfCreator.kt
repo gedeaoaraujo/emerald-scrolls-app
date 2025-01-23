@@ -20,8 +20,8 @@ import java.time.LocalDateTime
 object PdfCreator {
 
     private const val PADDING = 40f
-    private const val PAGE_WIDTH = 600
-    private const val PAGE_HEIGHT = 800
+    private const val PAGE_WIDTH = 595
+    private const val PAGE_HEIGHT = 842
 
     fun generatePDF(context: Context, scroll: ScrollModel?): Boolean {
         if (canReadAndWrite(context).not())
